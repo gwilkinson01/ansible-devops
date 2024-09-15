@@ -1,0 +1,29 @@
+trigger: none
+
+pool:
+  name: 'CDaasLinux'
+
+steps:
+
+- task:
+  name: PWV # Task Name
+  inputs:
+    svcConnection: # your cyberark service connection
+    accounts: # your cyberark account name
+  env:
+    PWV_password: $(PWV.cyberark_account_name_seperated_by_underscores)
+
+- task: PrepareAnsibleRuntime@0
+  inputs: 
+  ansibleConfigFilePath: ansible/playbook/ansible.cfg
+  env: 
+    PWV_password: $(PWV.cyberark_account_name_seperated_by_underscores)
+
+- task: Bash@3
+  displayName: 'run ansible playbook'
+  inputs:
+    targetType: 'inline'
+    script: | 
+      ansible-playbook -i ansible/playbook/inventories/test/hosts.ini ansible/playbook/site.yaml
+  env: 
+    PWV_password: $(PWV.cyberark_account_name_seperated_by_underscores)

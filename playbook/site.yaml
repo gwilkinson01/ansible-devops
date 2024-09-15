@@ -1,0 +1,24 @@
+---
+- name: create target directory
+  hosts: all
+  roles:
+    - detect-become-method
+
+  tasks:
+
+    - name: Copy file from agent to target server
+      become: true
+      copy:
+        src: # agent directory where file to be transferred is located.
+        dest: # directory on target server
+        mode: '0755'
+
+    - name: list target directories contents
+      command: ls
+      register: ls_output
+
+    - name: display raw output of the ls command
+      debug:
+        var: ls_output
+
+...
