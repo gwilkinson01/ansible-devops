@@ -9,7 +9,14 @@
     - name: Copy file from agent to target server
       become: true
       copy:
-        src: # agent directory where file to be transferred is located.
+        src: # <agent directory where file to be transferred is located>/largefile_part_aa
+        dest: # directory on target server
+        mode: '0755'
+
+    - name: Copy file from agent to target server
+      become: true
+      copy:
+        src: # <agent directory where file to be transferred is located>/largefile_part_ab
         dest: # directory on target server
         mode: '0755'
 
